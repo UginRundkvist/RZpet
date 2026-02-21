@@ -8,8 +8,8 @@ type Task struct {
 	ID       int
 	UserID   int
 	Type     string // "http", "ping", "tcp"
-	Target   string // URL, IP, host
+	Target   string // ссылка на сайт
 	Interval time.Duration
 	Active   bool
-	Payload  string // JSON со специфичными параметрами
+	Payload  string // вид задачи
 }

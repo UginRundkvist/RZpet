@@ -32,4 +32,9 @@ func CheckURL(url string) TaskResult {
 	}
 }
 
-func CheckHtttp(t task.Task)
+func CheckHtttp(t task.Task) {
+	go func(t task.Task) {
+
+		time.Sleep(t.Interval)
+	}(t)
+}
