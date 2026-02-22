@@ -13,7 +13,7 @@ func CheckURL(url string) TaskResult {
 	resp, err := http.Get(url)
 	if err != nil {
 		return TaskResult{
-			Status:       "error",
+			Status:       false,
 			ResponseCode: 0,
 			ErrorText:    err.Error(),
 			DurationMs:   time.Since(start).Milliseconds(),
@@ -25,7 +25,7 @@ func CheckURL(url string) TaskResult {
 	fmt.Println(elapsed)
 	fmt.Println("Status", resp.StatusCode)
 	return TaskResult{
-		Status:       "success",
+		Status:       true,
 		ResponseCode: resp.StatusCode,
 		ErrorText:    "",
 		DurationMs:   elapsed.Milliseconds(),
@@ -34,7 +34,10 @@ func CheckURL(url string) TaskResult {
 
 func CheckHtttp(t task.Task) {
 	go func(t task.Task) {
+		for t.Active {
+			//res := CheckURL(t.Target)
 
-		time.Sleep(t.Interval)
+			time.Sleep(t.Interval)
+		}
 	}(t)
 }

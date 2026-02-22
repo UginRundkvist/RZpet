@@ -1,11 +1,22 @@
 package main
 
 import (
-	"automation-service/internal/checker"
-	"fmt"
+	"automation-service/internal/storage"
+	"log"
 )
 
 func main() {
-	result := checker.CheckURL("http://localhost:8081/ok")
-	fmt.Println(result)
+	dsn := "postgres://admin:admin@localhost:5432/automation?sslmode=disable"
+
+	pool, err := storage.New(dsn)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer pool.Close()
+
+	log.Println("Connected to database successfully")
+
+	// пока просто держим программу живой
+	select {}
 }
