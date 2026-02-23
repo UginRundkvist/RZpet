@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"automation-service/internal/checker"
 	"context"
 	"fmt"
 
@@ -24,7 +25,7 @@ func New(dsn string) (*pgxpool.Pool, error) {
 func CreateSchema(pool *pgxpool.Pool) error {
 	query := `
 	CREATE TABLE IF NOT EXISTS task_results (
-		tassk_id SERIAL PRIMARY KEY,
+		task_id SERIAL PRIMARY KEY,
 		date TIMESTAMP NOT NULL,
 		status BOOLEAN NOT NULL,
 		response_code INTEGER NOT NULL,
@@ -36,16 +37,27 @@ func CreateSchema(pool *pgxpool.Pool) error {
 	return err
 }
 
-// func SaveTaskResult(pool *pgxpool.Pool, result checker.TaskResult) error {
-// 	query := `
-//     INSERT INTO task_results (task_name, status, response)
-//     VALUES ($1, $2, $3)
-//     `
-// 	_, err := pool.Exec(context.Background(),
-// 		query,
-// 		result.TaskName,
-// 		result.Status,
-// 		result.Response,
-// 	)
-// 	return err
-// }
+func SaveTaskResult(pool *pgxpool.Pool, t checker.TaskResult) error {
+	query := `
+        INSERT INTO task_results (task_id, date, status, response_code, duration, error_text)
+        VALUES ($1, $2, $3, $4, $5, $6)
+    `
+	ctx := context.Background()
+	//id := uuid.New()
+	_, err := pool.Exec(
+		ctx,
+		query,
+		13123131,
+		t.Date,
+		t.Status,
+		t.ResponseCode,
+		t.DurationMs,
+		t.ErrorText,
+	)
+
+	if err != nil {
+		return fmt.Errorf("failed to save task result: %w", err)
+	}
+
+	return nil
+}

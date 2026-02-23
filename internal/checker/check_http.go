@@ -32,8 +32,8 @@ func CheckURL(url string) TaskResult {
 	}
 }
 
-func CheckHtttp(t task.Task) {
-	go func(t task.Task) {
+func CheckHtttp(t task.TaskRequest) {
+	go func(t task.TaskRequest) {
 		for t.Active {
 			//res := CheckURL(t.Target)
 

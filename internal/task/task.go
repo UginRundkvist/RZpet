@@ -4,11 +4,11 @@ import (
 	"time"
 )
 
-type Task struct {
+type TaskRequest struct {
 	ID       int
 	UserID   int
 	Type     string // "http", "ping", "tcp"
-	Target   string // ссылка на сайт
+	Target   string // нет в бд
 	Interval time.Duration
 	Active   bool
 	Payload  string // вид задачи
